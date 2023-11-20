@@ -2,14 +2,24 @@
 
 namespace FiapStore.Controllers
 {
+    
+    [ApiController]
+    [Route("Usuario")]
+    
     public class UsuarioController : ControllerBase
     {
-        [HttpGet]
-
-        public IActionResult ObterUsuario()
+        [HttpGet ("ObterTodosUsuarios")]
+        public IActionResult ObterUsuarios()
         {
             return Ok("Usuário retornado com sucesso!");
         }
+
+        [HttpGet("ObterUsuarioId")]
+        public IActionResult ObterUsuarioId(int id)
+        {
+            return Ok("Usuário retornado com sucesso!");
+        }
+
         [HttpPost]
         public IActionResult CadastrarUsuario()
         {
