@@ -1,38 +1,37 @@
-﻿using FiapStore.Entidade;
+﻿using FiapStore.Entity;
 using FiapStore.Interface;
 
 namespace FiapStore.Repository
 {
-    public class UsuarioRepository : IUsuarioRepository
+    public class UsuarioRepository : DapperRepository<Usuario>, IUsuarioRepository
     {
-
-        private IList<Usuario> _usuario = new List<Usuario>();
-
-        public IList<Usuario> ObterTodosUsuarios()
+        public UsuarioRepository(IConfiguration configuration) : base(configuration)
         {
-            return _usuario;
         }
 
-        public Usuario ObterUsuarioPorId(int id)
+        public override void Alterar(Usuario entidade)
         {
-            return _usuario.FirstOrDefault(usuario => usuario.Id == id);
+            throw new NotImplementedException();
         }
 
-        public void CadastrarUsuario(Usuario usuario)
+        public override void Cadastrar(Usuario entidade)
         {
-            _usuario.Add(usuario);
-        }
-        public void AlterarUsuario(Usuario usuario)
-        {
-            var usuarioParaAlterar = ObterUsuarioPorId(usuario.Id);
-            if (usuarioParaAlterar != null)
-                usuarioParaAlterar.Nome = usuario.Nome;
-        }
-        public void DeletarrUsuario(int id)
-        {
-            _usuario.Remove(ObterUsuarioPorId(id));
+            throw new NotImplementedException();
         }
 
+        public override void Deletar(int id)
+        {
+            throw new NotImplementedException();
+        }
 
+        public override Usuario ObterPorId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IList<Usuario> ObterTodos()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
