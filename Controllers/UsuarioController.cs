@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FiapStore.Entidade;
+using FiapStore.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FiapStore.Controllers
 {
@@ -8,32 +10,43 @@ namespace FiapStore.Controllers
     
     public class UsuarioController : ControllerBase
     {
+        private IUsuarioRepository _usuarioRepository;
+
+        public UsuarioController(IUsuarioRepository usuarioReposity)
+        {
+            _usuarioRepository = usuarioReposity;           
+        }
+
+
         [HttpGet ("ObterTodosUsuarios")]
         public IActionResult ObterUsuarios()
         {
-            return Ok("Usuário retornado com sucesso!");
+            return Ok(_usuarioRepository.ObterTodosUsuarios());
         }
 
-        [HttpGet("ObterUsuarioId")]
+        [HttpGet("Obter-Usuario-Por-Id/{id}")]
         public IActionResult ObterUsuarioId(int id)
         {
-            return Ok("Usuário retornado com sucesso!");
+            return Ok(_usuarioRepository.ObterUsuarioPorId(id));
         }
 
         [HttpPost]
-        public IActionResult CadastrarUsuario()
+        public IActionResult CadastrarUsuario(Usuario usuario)
         {
-            return Ok("Usuário criado com sucesso!");
+            _usuarioRepository.CadastrarUsuario(usuario);
+            return Ok("Usuário cadastrado com sucesso!");
         }
 
         [HttpPut]
-        public IActionResult AlterarUsuario()
+        public IActionResult AlterarUsuario(Usuario usuario)
         {
+            _usuarioRepository.AlterarUsuario(usuario);
             return Ok("Usuário alterado com sucesso!");
         }
-        [HttpDelete]
-        public IActionResult DeleteUsuario()
+        [HttpDelete ("{id}")]
+        public IActionResult DeleteUsuario(int id)
         {
+            _usuarioRepository.DeletarrUsuario(id);
             return Ok("Usuário deletado com suceso!");
         }
 
