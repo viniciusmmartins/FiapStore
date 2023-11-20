@@ -13,7 +13,7 @@ namespace FiapStore.Repository
 
         public DapperRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetValue<string>("ConnectionString:ConnectionsString");              
+            _connectionString = configuration.GetValue<string>("ConnectionString:ConnectionString");              
         }
 
 
