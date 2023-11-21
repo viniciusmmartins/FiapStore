@@ -59,5 +59,34 @@ namespace FiapStore.Repository
                 return dbConnection.Query<Usuario>(query).ToList();
             }
         }
+
+        public Usuario ObterComPedidos(int id)
+        {
+            using (var dbConnection = new SqlConnection(ConnectionString))
+            {
+                var query = "SELECT * FROM USUARIO " +
+                            "LEFT JOIN PEDIDO ON USUARIO.ID = PEDIDO.USUARIOID " +
+                            "WHERE USUARIO.ID = @Id";
+                var resultado = new Dictionary<int, Usuario>();
+                var parametros = new {Id = id};
+
+                dbConnection.Query<Usuario, Pedido, Usuario>(query,
+                    (usuario, pedido) => {
+                        if(!resultado.TryGetValue(usuario.Id, out var usuarioExistente)){
+                            usuarioExistente = usuario;
+                            usuarioExistente.Pedidos = new List<Pedido>();
+                            resultado.Add(usuario.Id, usuarioExistente);
+                        }
+                        if(pedido != null)
+                        {
+                            usuarioExistente.Pedidos.Add(pedido);
+                        }
+
+                        return usuarioExistente;
+                    }, parametros, splitOn:"Id");
+
+                return resultado.Values.FirstOrDefault();
+            }
+        }
     }
 }
